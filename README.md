@@ -1,4 +1,5 @@
 This project implements four different pipelined processor models: non-forwarding, forwarding, always-taken, two-bit Dynamic Branch Prediction.
+
 The file allmodule contains all modules required for implementation of the pipelined processor, including:
  - All module in the single-cycle processor (with necessary modifications).
  - Hazard Detection Unit.
