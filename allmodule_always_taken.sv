@@ -1223,6 +1223,7 @@ module ex_mem_reg(
     input logic ctrl_E,
     input logic take_branch,
     input logic mispred_E,
+    input logic is_jump_E,
     
     output logic is_load_M,
     output logic [31:0] alu_data_M,
@@ -1236,7 +1237,8 @@ module ex_mem_reg(
     output logic [1:0] wb_sel_M,
     output logic insn_vld_M,
     output logic ctrl_M,
-    output logic mispred_M
+    output logic mispred_M,
+    output logic is_jump_M
 
 );
 
@@ -1255,6 +1257,7 @@ module ex_mem_reg(
             insn_vld_M  <= 1'b0;
             ctrl_M      <= 1'b0;
             mispred_M   <= 1'b0;
+            is_jump_M   <= 1'b0;
         end 
         
         else begin
@@ -1271,6 +1274,7 @@ module ex_mem_reg(
             insn_vld_M  <= insn_vld_E;
             ctrl_M      <= ctrl_E;
             mispred_M   <= mispred_E;
+            is_jump_M   <= is_jump_E;
         end
     end
 
