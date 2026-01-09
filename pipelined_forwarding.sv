@@ -117,6 +117,7 @@ module pipelined (
     logic        insn_vld_M;
     logic        ctrl_M;
     logic        mispred_M;
+    logic        is_jump_M;
 
     // LSU + Data memory (M stage)
     logic [31:0] ld_data_M;
@@ -325,14 +326,14 @@ module pipelined (
     always_comb begin
         case (fwrs1)
             2'b00: fwdata1 = rs1_data_E;
-            2'b01: fwdata1 = alu_data_M;
+            2'b01: fwdata1 = (is_jump_M)? pcplus4_M : alu_data_M;
             2'b10: fwdata1 = wb_data_WB;
             2'b11: fwdata1 = 32'b0; 
         endcase
 
         case (fwrs2)
             2'b00: fwdata2 = rs2_data_E;
-            2'b01: fwdata2 = alu_data_M;
+            2'b01: fwdata2 = (is_jump_M)? pcplus4_M : alu_data_M;
             2'b10: fwdata2 = wb_data_WB;
             2'b11: fwdata2 = 32'b0; 
         endcase
@@ -379,6 +380,7 @@ module pipelined (
         .insn_vld_E   (insn_vld_E),
         .ctrl_E       (ctrl_E),
         .take_branch  (take_branch_E),
+        .is_jump_E    (is_jump_E),
 
         .alu_data_M   (alu_data_M),
         .wr_data_M    (wr_data_M),
@@ -392,7 +394,8 @@ module pipelined (
         .wb_sel_M     (wb_sel_M),
         .insn_vld_M   (insn_vld_M),
         .ctrl_M       (ctrl_M),
-        .mispred_M    (mispred_M)
+        .mispred_M    (mispred_M),
+        .is_jump_M    (is_jump_M)
     );  
 
     // ============================================================
